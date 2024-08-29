@@ -448,9 +448,8 @@ export default function Pokemon({params}: IPokemonName) {
 				<button onClick={handleNoDescription} className={!description ? "bg-white text-[#E85463] p-1 rounded cursor-pointer text-base font-bold" : "bg-white text-[#E85463] p-1 rounded cursor-pointer text-xs"}>Versions in game</button>
 				<button onClick={handleDescription} className={description ? "bg-white text-[#E85463] p-1 rounded cursor-pointer text-base font-bold" : "bg-white text-[#E85463] p-1 rounded cursor-pointer text-xs"}>Description</button>
 			</div>
-			<div className="w-11/12 h-60 mt-12 bg-white rounded-3xl relative flex flex-col items-center">
+			<div className="w-11/12 h-60 min-h-60 mt-12 bg-white rounded-3xl relative flex flex-col items-center">
 				<h2 className="font-bold text-xl mt-4">{data.name.charAt(0).toUpperCase() + data.name.split('-')[0].slice(1)} #{data.order}</h2>
-				{!image && data.sprites.other['official-artwork'].front_shiny && <h2 className="font-bold text-sm">Shiny</h2>}
 				<span className="bg-black p-1 rounded-md font-semibold text-white">
 					{data.types.map(pokemon => pokemon.type.name.charAt(0).toUpperCase() + pokemon.type.name.slice(1)).join('/')}
 				</span>
