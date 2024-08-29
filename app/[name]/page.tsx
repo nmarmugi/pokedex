@@ -389,56 +389,63 @@ interface Type2 {
 
 
 export default function Pokemon({params}: IPokemonName) {
-	const {name} = params;
-	const [data, setData] = useState<ISinglePokemon | null>(null)
-	const [dataDescription, setDataDescription] = useState<string | ''>('')
-	const [image, setImage] = useState<boolean>(true)
-	const [description, setDescription] = useState<boolean>(false)
-	const audioRef = useRef<HTMLAudioElement>(null);
+    const {name} = params;
+    const [data, setData] = useState<ISinglePokemon | null>(null);
+    const [dataDescription, setDataDescription] = useState<string | ''>('');
+    const [image, setImage] = useState<boolean>(true);
+    const [description, setDescription] = useState<boolean>(false);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
-	const playAudio = () => {
-		if (audioRef.current) {
-			audioRef.current.play();
-		}
-	}
+    const isMobile = () => {
+        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    }
 
-	async function getPokemonName(name: string) {
-		const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
-		const data = await res.json()
-		setData(data)
-		const description = data.species.url
-		const resDescription = await fetch(description)
-		const dataDescription = await resDescription.json()
-		setDataDescription(dataDescription.flavor_text_entries[0].flavor_text.replace(/[\n\f]/g, ""))
-	}
+    const playAudio = () => {
+        if (audioRef.current) {
+            if (!isMobile() || (isMobile() && audioRef.current.paused)) {
+                audioRef.current.play();
+            }
+        }
+    }
 
-	useEffect(() => {
-		if (data && audioRef.current) {
-			audioRef.current.play();
-		}
-	}, [data]);
+    async function getPokemonName(name: string) {
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        const data = await res.json();
+        setData(data);
 
-	useEffect(() => {
-		getPokemonName(name)
-	}, [name])
+        const description = data.species.url;
+        const resDescription = await fetch(description);
+        const dataDescription = await resDescription.json();
+        setDataDescription(dataDescription.flavor_text_entries[0].flavor_text.replace(/[\n\f]/g, ""));
+    }
 
-	function handleChangeImgGo() {
-		setImage(false)
-	}
+    useEffect(() => {
+        if (data && !isMobile() && audioRef.current) {
+            audioRef.current.play();
+        }
+    }, [data]);
 
-	function handleChangeImgDown() {
-		setImage(true)
-	}
+    useEffect(() => {
+        getPokemonName(name);
+    }, [name]);
 
-	function handleDescription() {
-		setDescription(true)
-	}
+    function handleChangeImgGo() {
+        setImage(false);
+    }
 
-	function handleNoDescription() {
-		setDescription(false)
-	}
+    function handleChangeImgDown() {
+        setImage(true);
+    }
 
-	if (!data) return <Loading />
+    function handleDescription() {
+        setDescription(true);
+    }
+
+    function handleNoDescription() {
+        setDescription(false);
+    }
+
+    if (!data) return <Loading />;
 
 	return (
 		<div className="w-full h-dvh max-h-dvh bg-[#E85463] relative flex flex-col items-center">
