@@ -441,7 +441,7 @@ export default function Pokemon({params}: IPokemonName) {
 	if (!data) return <Loading />
 
 	return (
-		<div className="w-full h-dvh max-h-dvh bg-[#E85463] relative flex flex-col items-center">
+		<div className="w-full h-dvh min-h-dvh bg-[#E85463] relative flex flex-col items-center">
 			{data.cries.latest && <audio ref={audioRef} src={data.cries.latest}></audio>}
 			<Link className="fixed top-3 left-3 flex items-center gap-2 text-white font-semibold" href={'/'}><Image width={30} height={30} src='/img/button_2489325.svg' alt="Back to home"  />Home</Link>
 			<div className="fixed top-3 right-3 flex items-center gap-2">
