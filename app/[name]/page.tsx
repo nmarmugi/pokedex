@@ -388,102 +388,109 @@ interface Type2 {
 }
 
 
-function Pokemon({ params }: IPokemonName) {
-	const { name } = params;
-	const [data, setData] = useState<ISinglePokemon | null>(null);
-	const [dataDescription, setDataDescription] = useState<string | ''>('');
-	const [image, setImage] = useState<boolean>(true);
-	const [description, setDescription] = useState<boolean>(false);
+export default function Pokemon({params}: IPokemonName) {
+	const {name} = params;
+	const [data, setData] = useState<ISinglePokemon | null>(null)
+	const [dataDescription, setDataDescription] = useState<string | ''>('')
+	const [image, setImage] = useState<boolean>(true)
+	const [description, setDescription] = useState<boolean>(false)
 	const audioRef = useRef<HTMLAudioElement>(null);
-  
+
 	const playAudio = () => {
-	  if (audioRef.current) {
-		setTimeout(() => {
-		  audioRef.current.play().catch(error => console.log("Failed to play audio:", error));
-		}, 100);
-	  }
-	};
-  
+		if (audioRef.current) {
+			audioRef.current.play();
+		}
+	}
+
 	async function getPokemonName(name: string) {
-	  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-	  const data = await res.json();
-	  setData(data);
-	  const description = data.species.url;
-	  const resDescription = await fetch(description);
-	  const dataDescription = await resDescription.json();
-	  setDataDescription(dataDescription.flavor_text_entries[0].flavor_text.replace(/[\n\f]/g, ""));
+		const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+		const data = await res.json()
+		setData(data)
+		const description = data.species.url
+		const resDescription = await fetch(description)
+		const dataDescription = await resDescription.json()
+		setDataDescription(dataDescription.flavor_text_entries[0].flavor_text.replace(/[\n\f]/g, ""))
 	}
-  
+
 	useEffect(() => {
-	  getPokemonName(name);
-	}, [name]);
-  
+		if (data && audioRef.current) {
+			audioRef.current.play();
+		}
+	}, [data]);
+
+	useEffect(() => {
+		getPokemonName(name)
+	}, [name])
+
 	function handleChangeImgGo() {
-	  setImage(false);
+		setImage(false)
 	}
-  
+
 	function handleChangeImgDown() {
-	  setImage(true);
+		setImage(true)
 	}
-  
+
 	function handleDescription() {
-	  setDescription(true);
+		setDescription(true)
 	}
-  
+
 	function handleNoDescription() {
-	  setDescription(false);
+		setDescription(false)
 	}
-  
-	if (!data) return <Loading />;
-  
+
+	if (!data) return <Loading />
+
 	return (
-	  <div className="w-full h-dvh max-h-dvh bg-[#E85463] relative flex flex-col items-center">
-		{data.cries.latest && <audio ref={audioRef} src={data.cries.latest}></audio>}
-		<Link className="fixed top-3 left-3 flex items-center gap-2 text-white font-semibold" href={'/'}>
-		  <Image width={30} height={30} src='/img/button_2489325.svg' alt="Back to home" />Home
-		</Link>
-		<div className="fixed top-3 right-3 flex items-center gap-2">
-		  <button onClick={handleNoDescription} className={!description ? "bg-white text-[#E85463] p-1 rounded cursor-pointer text-base font-bold" : "bg-white text-[#E85463] p-1 rounded cursor-pointer text-xs"}>Versions in game</button>
-		  <button onClick={handleDescription} className={description ? "bg-white text-[#E85463] p-1 rounded cursor-pointer text-base font-bold" : "bg-white text-[#E85463] p-1 rounded cursor-pointer text-xs"}>Description</button>
+		<div className="w-full h-dvh max-h-dvh bg-[#E85463] relative flex flex-col items-center">
+			{data.cries.latest && <audio ref={audioRef} src={data.cries.latest}></audio>}
+			<Link className="fixed top-3 left-3 flex items-center gap-2 text-white font-semibold" href={'/'}><Image width={30} height={30} src='/img/button_2489325.svg' alt="Back to home"  />Home</Link>
+			<div className="fixed top-3 right-3 flex items-center gap-2">
+				<button onClick={handleNoDescription} className={!description ? "bg-white text-[#E85463] p-1 rounded cursor-pointer text-base font-bold" : "bg-white text-[#E85463] p-1 rounded cursor-pointer text-xs"}>Versions in game</button>
+				<button onClick={handleDescription} className={description ? "bg-white text-[#E85463] p-1 rounded cursor-pointer text-base font-bold" : "bg-white text-[#E85463] p-1 rounded cursor-pointer text-xs"}>Description</button>
+			</div>
+			<div className="w-11/12 h-60 mt-12 bg-white rounded-3xl relative flex flex-col items-center">
+				<h2 className="font-bold text-xl mt-4">{data.name.charAt(0).toUpperCase() + data.name.split('-')[0].slice(1)} #{data.order}</h2>
+				{!image && data.sprites.other['official-artwork'].front_shiny && <h2 className="font-bold text-sm">Shiny</h2>}
+				<span className="bg-black p-1 rounded-md font-semibold text-white">
+					{data.types.map(pokemon => pokemon.type.name.charAt(0).toUpperCase() + pokemon.type.name.slice(1)).join('/')}
+				</span>
+				<div className="absolute -bottom-20 w-full h-full flex items-center justify-center gap-3">
+					<span onClick={handleChangeImgDown} className="font-bold text-3xl cursor-pointer">&lt;</span>
+					{image && data.sprites.other['official-artwork'].front_default && <img onClick={playAudio} className="w-48 cursor-pointer" src={`${data.sprites.other['official-artwork'].front_default}`} alt="Pokemon" />}
+					{!image && data.sprites.other['official-artwork'].front_shiny && <img onClick={playAudio} className="w-48 cursor-pointer" src={`${data.sprites.other['official-artwork'].front_shiny}`} alt="Pokemon" />}
+					<span onClick={handleChangeImgGo} className="font-bold text-3xl cursor-pointer">&gt;</span>
+				</div>
+			</div>
+			<div className="w-11/12 mt-20 flex flex-col items-center bg-white rounded-3xl p-3 relative">
+				<div className="w-11/12 flex justify-center gap-5 absolute -top-7">
+					<span className="font-semibold text-white">Weight: {data.weight}</span>
+					<span className="font-semibold text-white">Height: {data.height}</span>
+				</div>
+				{!description && (
+					<>
+					<h2 className="font-bold">Versions in game</h2>
+					{data.sprites.versions['generation-viii'].icons.front_default && <img className="w-20 h-20 mb-5" src={data.sprites.versions['generation-viii'].icons.front_default} alt="Pokemon" />}
+					<div className="w-full flex flex-wrap justify-between gap-2 p-3">
+						{data.sprites.versions['generation-i']['red-blue'].front_default && <img title="Red-Blue" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-i']['red-blue'].front_default} alt="Pokemon" />}
+						{data.sprites.versions['generation-ii'].crystal.front_default && <img title="Crystal" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-ii'].crystal.front_default} alt="Pokemon" />}
+						{data.sprites.versions['generation-iii'].emerald.front_default && <img title="Emerald" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-iii'].emerald.front_default} alt="Pokemon" />}
+						{data.sprites.versions['generation-iv']['diamond-pearl'].front_default && <img title="Diamond-Pearl" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-iv']['diamond-pearl'].front_default} alt="Pokemon" />}
+						{data.sprites.versions['generation-v']['black-white'].front_default && <img title="Black-White" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-v']['black-white'].front_default} alt="Pokemon" />}
+						{data.sprites.versions['generation-vi']['omegaruby-alphasapphire'].front_default && <img title="Omegaruby-Alphasapphire" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-vi']['omegaruby-alphasapphire'].front_default} alt="Pokemon" />}
+						{data.sprites.versions['generation-vii']["ultra-sun-ultra-moon"].front_default && <img title="Ultra-sun-Ultra-moon" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-vii']["ultra-sun-ultra-moon"].front_default} alt="Pokemon" />}
+					</div>
+					</>
+				)}
+				{description && (
+					<>
+					<h2 className="font-bold mb-2">Description</h2>
+					<p className="font-bold mb-1">
+						{dataDescription}
+					</p>
+					<Image width={250} height={250} src='/img/game_14079557.png' alt="Pokemon center" />
+					</>
+				)}
+			</div>
 		</div>
-		<div className="w-11/12 h-60 mt-12 bg-white rounded-3xl relative flex flex-col items-center">
-		  <h2 className="font-bold text-xl mt-4">{data.name.charAt(0).toUpperCase() + data.name.split('-')[0].slice(1)} #{data.order}</h2>
-		  {!image && data.sprites.other['official-artwork'].front_shiny && <h2 className="font-bold text-sm">Shiny</h2>}
-		  <span className="bg-black p-1 rounded-md font-semibold text-white">
-			{data.types.map(pokemon => pokemon.type.name.charAt(0).toUpperCase() + pokemon.type.name.slice(1)).join('/')}
-		  </span>
-		  <div className="absolute -bottom-20 w-full h-full flex items-center justify-center gap-3">
-			<span onClick={handleChangeImgDown} className="font-bold text-3xl cursor-pointer">&lt;</span>
-			{image && data.sprites.other['official-artwork'].front_default && <img onClick={playAudio} className="w-48 cursor-pointer" src={`${data.sprites.other['official-artwork'].front_default}`} alt="Pokemon" />}
-			{!image && data.sprites.other['official-artwork'].front_shiny && <img onClick={playAudio} className="w-48 cursor-pointer" src={`${data.sprites.other['official-artwork'].front_shiny}`} alt="Pokemon" />}
-			<span onClick={handleChangeImgGo} className="font-bold text-3xl cursor-pointer">&gt;</span>
-		  </div>
-		</div>
-		<div className="w-11/12 mt-20 flex flex-col items-center bg-white rounded-3xl p-3 relative">
-		  <div className="w-11/12 flex justify-center gap-5 absolute -top-7">
-			<span className="font-semibold text-white">Weight: {data.weight}</span>
-			<span className="font-semibold text-white">Height: {data.height}</span>
-		  </div>
-		  {!description && (
-			<>
-			  <h2 className="font-bold">Versions in game</h2>
-			  {data.sprites.versions['generation-viii'].icons.front_default && <img className="w-20 h-20 mb-5" src={data.sprites.versions['generation-viii'].icons.front_default} alt="Pokemon" />}
-			  <div className="w-full flex flex-wrap justify-between gap-2 p-3">
-				{/* Sprites for different generations */}
-			  </div>
-			</>
-		  )}
-		  {description && (
-			<>
-			  <h2 className="font-bold mb-2">Description</h2>
-			  <p className="font-bold mb-1">{dataDescription}</p>
-			  <Image width={250} height={250} src='/img/game_14079557.png' alt="Pokemon center" />
-			</>
-		  )}
-		</div>
-	  </div>
-	);
-  }
-  
-  export default Pokemon;
-  
+	)
+}
