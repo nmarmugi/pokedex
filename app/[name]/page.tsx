@@ -487,7 +487,7 @@ export default function Pokemon({params}: IPokemonName) {
 					<p className="font-bold mb-1">
 						{dataDescription}
 					</p>
-					<Image width={250} height={250} src='/img/game_14079557.png' alt="Pokemon center" />
+					<Image width={200} height={200} src='/img/game_14079557.png' alt="Pokemon center" />
 					</>
 				)}
 			</div>
