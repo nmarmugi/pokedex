@@ -12,7 +12,9 @@
 body {
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: #ebebeb;
+    min-height: 100dvh;
 }
 
 ::-webkit-scrollbar {
