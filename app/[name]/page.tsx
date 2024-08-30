@@ -487,7 +487,7 @@ export default function Pokemon({params}: IPokemonName) {
 						{dataDescription}
 					</p>
 					<Link className="border-2 p-1 rounded-lg bg-black text-white mb-2" href={`https://wiki.pokemoncentral.it/${name.charAt(0).toUpperCase() + name.slice(1)}`} target="_blank">READ MORE</Link>
-					<Image width={130} height={130} src='/img/game_14079557.png' alt="Pokemon center" />
+					<Image width={150} height={150} src='/img/game_14079557.png' alt="Pokemon center" />
 					</>
 				)}
 			</div>
