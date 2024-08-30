@@ -469,7 +469,7 @@ export default function Pokemon({params}: IPokemonName) {
 				{!description && (
 					<>
 					<h2 className="font-bold">Versions in game</h2>
-					{data.sprites.versions['generation-viii'].icons.front_default && <img className="w-20 h-20 mb-5" src={data.sprites.versions['generation-viii'].icons.front_default} alt="Pokemon" />}
+					{data.sprites.versions['generation-viii'].icons.front_default && <img className="w-20 h-20" src={data.sprites.versions['generation-viii'].icons.front_default} alt="Pokemon" />}
 					<div className="w-full flex flex-wrap justify-around gap-2 p-3">
 						{data.sprites.versions['generation-i']['red-blue'].front_default && <img title="Red-Blue" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-i']['red-blue'].front_default} alt="Pokemon" />}
 						{data.sprites.versions['generation-ii'].crystal.front_default && <img title="Crystal" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-ii'].crystal.front_default} alt="Pokemon" />}
