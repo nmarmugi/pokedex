@@ -450,6 +450,7 @@ export default function Pokemon({params}: IPokemonName) {
 			</div>
 			<div className="w-11/12 h-60 min-h-60 mt-12 bg-white rounded-3xl relative flex flex-col items-center">
 				<h2 className="font-bold text-xl mt-4">{data.name.charAt(0).toUpperCase() + data.name.split('-')[0].slice(1)} #{data.order}</h2>
+				{!image && <span className="text-xs font-semibold">Shiny</span>}
 				<span className="bg-black p-1 rounded-md font-semibold text-white">
 					{data.types.map(pokemon => pokemon.type.name.charAt(0).toUpperCase() + pokemon.type.name.slice(1)).join('/')}
 				</span>
@@ -460,7 +461,7 @@ export default function Pokemon({params}: IPokemonName) {
 					<span onClick={handleChangeImgGo} className="font-bold text-3xl cursor-pointer">&gt;</span>
 				</div>
 			</div>
-			<div className="w-11/12 mt-20 flex flex-col items-center bg-white rounded-3xl p-3 relative h-80 overflow-hidden overflow-y-auto">
+			<div className="w-11/12 mt-20 flex flex-col items-center bg-white rounded-3xl p-3 relative h-96 overflow-hidden overflow-y-auto">
 				<div className="w-11/12 flex justify-center gap-5 absolute -top-7">
 					<span className="font-semibold text-white">Weight: {data.weight}</span>
 					<span className="font-semibold text-white">Height: {data.height}</span>
