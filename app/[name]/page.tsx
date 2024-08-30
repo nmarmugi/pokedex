@@ -465,7 +465,7 @@ export default function Pokemon({params}: IPokemonName) {
 					<span className="font-semibold text-white">Height: {data.height}</span>
 				</div>
 			</div>
-			<div className="w-11/12 mt-24 flex flex-col items-center bg-white rounded-3xl p-3 relative h-96 overflow-hidden overflow-y-auto">
+			<div className="w-11/12 mt-24 flex flex-col items-center bg-white rounded-3xl p-3 relative">
 				{!description && (
 					<>
 					<h2 className="font-bold">Versions in game</h2>
