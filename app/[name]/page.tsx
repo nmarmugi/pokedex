@@ -460,7 +460,7 @@ export default function Pokemon({params}: IPokemonName) {
 					<span onClick={handleChangeImgGo} className="font-bold text-3xl cursor-pointer">&gt;</span>
 				</div>
 			</div>
-			<div className="w-11/12 mt-20 flex flex-col items-center bg-white rounded-3xl p-3 relative h-52 overflow-hidden">
+			<div className="w-11/12 mt-20 flex flex-col items-center bg-white rounded-3xl p-3 relative h-52 overflow-hidden overflow-y-scroll">
 				<div className="w-11/12 flex justify-center gap-5 absolute -top-7">
 					<span className="font-semibold text-white">Weight: {data.weight}</span>
 					<span className="font-semibold text-white">Height: {data.height}</span>
