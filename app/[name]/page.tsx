@@ -460,12 +460,12 @@ export default function Pokemon({params}: IPokemonName) {
 					{!image && data.sprites.other['official-artwork'].front_shiny && <img onClick={playAudio} className="w-48 cursor-pointer" src={`${data.sprites.other['official-artwork'].front_shiny}`} alt="Pokemon" />}
 					<span onClick={handleChangeImgGo} className="font-bold text-3xl cursor-pointer">&gt;</span>
 				</div>
-				<div className="w-11/12 flex justify-center gap-5 absolute -bottom-16">
+				<div className="w-11/12 flex justify-center gap-5 absolute -bottom-20">
 					<span className="font-semibold text-white">Weight: {data.weight}</span>
 					<span className="font-semibold text-white">Height: {data.height}</span>
 				</div>
 			</div>
-			<div className="w-11/12 mt-20 flex flex-col items-center bg-white rounded-3xl p-3 relative h-96 overflow-hidden overflow-y-auto">
+			<div className="w-11/12 mt-24 flex flex-col items-center bg-white rounded-3xl p-3 relative h-96 overflow-hidden overflow-y-auto">
 				{!description && (
 					<>
 					<h2 className="font-bold">Versions in game</h2>
