@@ -10,7 +10,7 @@ interface IPokemonName {
 	}
 }
 
-interface ISinglePokemon  {
+export interface ISinglePokemon  {
 	abilities: Ability[]
 	base_experience: number
 	cries: Cries
@@ -470,14 +470,13 @@ export default function Pokemon({params}: IPokemonName) {
 					<>
 					<h2 className="font-bold">Versions in game</h2>
 					{data.sprites.versions['generation-viii'].icons.front_default && <img className="w-20 h-20 mb-5" src={data.sprites.versions['generation-viii'].icons.front_default} alt="Pokemon" />}
-					<div className="w-full flex flex-wrap justify-between gap-2 p-3">
+					<div className="w-full flex flex-wrap justify-around gap-2 p-3">
 						{data.sprites.versions['generation-i']['red-blue'].front_default && <img title="Red-Blue" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-i']['red-blue'].front_default} alt="Pokemon" />}
 						{data.sprites.versions['generation-ii'].crystal.front_default && <img title="Crystal" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-ii'].crystal.front_default} alt="Pokemon" />}
 						{data.sprites.versions['generation-iii'].emerald.front_default && <img title="Emerald" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-iii'].emerald.front_default} alt="Pokemon" />}
 						{data.sprites.versions['generation-iv']['diamond-pearl'].front_default && <img title="Diamond-Pearl" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-iv']['diamond-pearl'].front_default} alt="Pokemon" />}
 						{data.sprites.versions['generation-v']['black-white'].front_default && <img title="Black-White" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-v']['black-white'].front_default} alt="Pokemon" />}
 						{data.sprites.versions['generation-vi']['omegaruby-alphasapphire'].front_default && <img title="Omegaruby-Alphasapphire" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-vi']['omegaruby-alphasapphire'].front_default} alt="Pokemon" />}
-						{data.sprites.versions['generation-vii']["ultra-sun-ultra-moon"].front_default && <img title="Ultra-sun-Ultra-moon" className="w-20 h-20 border-2 border-black rounded-md p-2 shadow-xl transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl" src={data.sprites.versions['generation-vii']["ultra-sun-ultra-moon"].front_default} alt="Pokemon" />}
 					</div>
 					</>
 				)}
@@ -487,6 +486,7 @@ export default function Pokemon({params}: IPokemonName) {
 					<p className="font-bold mb-1">
 						{dataDescription}
 					</p>
+					<Link className="border-2 p-1 rounded-lg bg-black text-white" href={`https://wiki.pokemoncentral.it/${name.charAt(0).toUpperCase() + name.slice(1)}`} target="_blank">READ MORE</Link>
 					<Image width={150} height={150} src='/img/game_14079557.png' alt="Pokemon center" />
 					</>
 				)}
